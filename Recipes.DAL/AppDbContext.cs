@@ -15,8 +15,10 @@ namespace Recipes.DAL
 
     protected override void OnModelCreating(ModelBuilder mBuilder)
     {
-      mBuilder.Entity<MeasureType>(c =>
-        c.Property(p => p.Name).HasColumnType("nvarchar(100)"));
+      mBuilder.Entity<MeasureType>(t =>
+        t.Property(p => p.Id).ValueGeneratedOnAdd());
+      mBuilder.Entity<MeasureType>(t =>
+        t.Property(p => p.Name).HasColumnType("nvarchar(100)"));
     }
   }
 

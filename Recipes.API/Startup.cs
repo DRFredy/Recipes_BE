@@ -46,8 +46,6 @@ namespace Recipes.API
 
       services.AddEntityFramework(Configuration);
 
-      //services.AddAutoMapper(typeof(Startup));
-
       services.AddTransient<IMeasureTypesService, MeasureTypesService>();
 
       //Mappers
@@ -111,8 +109,8 @@ namespace Recipes.API
 
       return new ConfigurationBuilder()
          .SetBasePath(env.ContentRootPath)
-         .AddJsonFile($"{pathToConf}\\appsettings.json", optional: false, reloadOnChange: true)
-         .AddJsonFile($"{pathToConf}\\appsettings.{env.EnvironmentName}.json", optional: true)
+         .AddJsonFile(Path.Combine(pathToConf, "appsettings.json"), optional: false, reloadOnChange: true)
+         .AddJsonFile(Path.Combine(pathToConf, $"appsettings.{env.EnvironmentName}.json"), optional: true)
          .AddEnvironmentVariables();
     }
 
@@ -120,12 +118,12 @@ namespace Recipes.API
     /// Gets the path to the config file
     /// </summary>
     /// <param name="envPath">the environment content root path</param>
-    /// <returns></returns>
+    /// <returns>A string containing the path to the configuration file</returns>
     public string GetPathToConfigFile(string envPath)
     {
       string pathToConf;
 
-      if (File.Exists($"{envPath}\\appsettings.json"))
+      if (File.Exists(Path.Combine(envPath, "appsettings.json")))
       {
         pathToConf = envPath;
       }

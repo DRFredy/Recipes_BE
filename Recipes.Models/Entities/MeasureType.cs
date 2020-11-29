@@ -10,6 +10,7 @@ namespace Recipes.Models
     /// <summary>
     /// MeasureType Id
     /// </summary>
+    [Key]
     public int Id { get; set; }
 
     /// <summary>

@@ -9,73 +9,120 @@ using System.Threading.Tasks;
 
 namespace Recipes.DAL.Repositories
 {
-  public class MeasureTypesRepository : IMeasureTypesRepository
+  public class MeasureTypesRepository : GenericRepository<MeasureType>, IMeasureTypesRepository
   {
     private readonly AppDbContext _context;
 
     public MeasureTypesRepository(AppDbContext context)
+      : base(context)
     {
       _context = context;
     }
 
-    public async Task<IEnumerable<MeasureType>> GetAllAsync(
-        Expression<Func<MeasureType, bool>> filter = null,
-        Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderBy = null,
-        string includeProperties = "")
+    public async override Task<IEnumerable<MeasureType>> GetAllAsync(
+      Expression<Func<MeasureType, bool>> filter = null,
+      Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderBy = null,
+      string includeProperties = "")
     {
-      IQueryable<MeasureType> query = _context.MeasureTypes;
+      return await base.GetAllAsync(filter, orderBy, includeProperties);
+    }
 
+    public async override Task<MeasureType> GetByIDAsync(object id)
+    {
+      return await _context.MeasureTypes
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(et => et.Id == (int)id);
+    }
+
+    public async override Task InsertAsync(MeasureType entity)
+    {
+      await base.InsertAsync(entity);
+    }
+
+    public async override Task<bool> DeleteAsync(object id)
+    {
+      return await base.DeleteAsync(id);
+    }
+
+    public async override Task<bool> DeleteAsync(MeasureType entity)
+    {
+      return await base.DeleteAsync(entity);
+    }
+
+    public async Task<bool> UpdateAsync(MeasureType entity)
+    {
       return await Task.Run(() => {
-        if (filter != null)
+        try
         {
-          query = query.Where(filter);
+          base.Update(entity);
+        }
+        catch
+        {
+          return false;
         }
 
-        if(!string.IsNullOrWhiteSpace(includeProperties)) {
-          foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-          {
-            query = query.Include(includeProperty);
-          }
-        }
-
-        if (orderBy != null)
-        {
-          return orderBy(query).ToList();
-        }
-        else
-        {
-          return query.ToList();
-        }
+        return true;
       });
     }
 
-    public async Task<MeasureType> GetByIDAsync(int id)
-    {
-      //Console.WriteLine("INI consulta" + DateTime.Now.ToString("HH:mm:ss.FFFFFF"));
-      //var qttyType = await _context.MeasureTypes.FirstOrDefaultAsync(qt => qt.Id == id);
-      //Console.WriteLine("FIN consulta " + DateTime.Now.ToString("HH:mm:ss.FFFFFF"));
-      //return qttyType;
-      return await _context.MeasureTypes.FirstOrDefaultAsync(qt => qt.Id == id);
-    }
+    // public async Task<IEnumerable<MeasureType>> GetAllAsync(
+    //     Expression<Func<MeasureType, bool>> filter = null,
+    //     Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderBy = null,
+    //     string includeProperties = "")
+    // {
+    //   IQueryable<MeasureType> query = _context.MeasureTypes
+    //                                     .AsNoTracking();
 
-    public async Task InsertAsync(MeasureType entity)
-    {
-      await _context.MeasureTypes.AddAsync(entity);
-    }
+    //   return await Task.Run(() => {
+    //     if (filter != null)
+    //     {
+    //       query = query.Where(filter);
+    //     }
 
-    public async Task DeleteAsync(object id)
-    {
-      await Task.FromResult(true);
-    }
+    //     if(!string.IsNullOrWhiteSpace(includeProperties)) {
+    //       foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+    //       {
+    //         query = query.Include(includeProperty);
+    //       }
+    //     }
 
-    public async Task DeleteAsync(MeasureType entityToDelete)
-    {
-      await Task.FromResult(true);
-    }
+    //     if (orderBy != null)
+    //     {
+    //       return orderBy(query).ToList();
+    //     }
+    //     else
+    //     {
+    //       return query.ToList();
+    //     }
+    //   });
+    // }
 
-    public async Task UpdateAsync(MeasureType entityToUpdate)
-    {
-      await Task.FromResult(true);
-    }
+    // public async Task<MeasureType> GetByIDAsync(int id)
+    // {
+    //   return await _context.MeasureTypes
+    //                 .AsNoTracking()
+    //                 .FirstOrDefaultAsync(et => et.Id == id);
+    // }
+
+    // public async override Task InsertAsync(MeasureType entity)
+    // {
+    //   //await _context.MeasureTypes.AddAsync(entity);
+    //   await base.InsertAsync(entity);
+    // }
+
+    // public async override Task<bool> DeleteAsync(int id)
+    // {
+    //   return 
+    // }
+
+    // public async Task DeleteAsync(MeasureType entityToDelete)
+    // {
+    //   await Task.FromResult(true);
+    // }
+
+    // public async Task UpdateAsync(MeasureType entityToUpdate)
+    // {
+    //   await Task.FromResult(true);
+    // }
   }
 }

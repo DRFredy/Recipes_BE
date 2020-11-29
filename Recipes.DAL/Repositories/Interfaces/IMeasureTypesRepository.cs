@@ -18,12 +18,14 @@ namespace Recipes.DAL.Repositories.Interfaces
         Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderBy = null,
         string includeProperties = "");
 
-    Task<MeasureType> GetByIDAsync(int id);
+    Task<MeasureType> GetByIDAsync(object id);
 
     Task InsertAsync(MeasureType entity);
 
-    Task DeleteAsync(object id);
+    Task<bool> UpdateAsync(MeasureType entity);
+    
+    Task<bool> DeleteAsync(object id);
 
-    Task DeleteAsync(MeasureType entityToDelete);
+    Task<bool> DeleteAsync(MeasureType entity);
   }
 }

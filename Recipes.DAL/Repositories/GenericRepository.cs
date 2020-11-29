@@ -24,7 +24,8 @@ namespace Recipes.DAL.Repositories
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         string includeProperties = "")
     {
-      IQueryable<TEntity> query = dbSet;
+      IQueryable<TEntity> query = dbSet
+                                  .AsNoTracking();
 
       return await Task.Run(() => {
         if (filter != null)
@@ -41,6 +42,7 @@ namespace Recipes.DAL.Repositories
 
         if (orderBy != null)
         {
+          
           return orderBy(query).ToList();
         }
         else
@@ -52,11 +54,8 @@ namespace Recipes.DAL.Repositories
 
     public virtual async Task<TEntity> GetByIDAsync(object id)
     {
-      //return await Task.Run(() => dbSet.Find(id));
-      Console.WriteLine("INI GenRepo.GetByIDAsync: " + DateTime.Now.ToString("HH:mm:ss.FFFFFF"));
-      var r = await Task.Run(() => dbSet.Find(id));
-      Console.WriteLine("FIN GenRepo.GetByIDAsync: " + DateTime.Now.ToString("HH:mm:ss.FFFFFF"));
-      return r;
+      return await dbSet
+                    .FindAsync(id);
     }
 
     public virtual async Task InsertAsync(TEntity entity)
@@ -64,32 +63,43 @@ namespace Recipes.DAL.Repositories
       await Task.Run(() => dbSet.Add(entity));
     }
 
-    public virtual async Task DeleteAsync(object id)
+    public virtual async Task<bool> DeleteAsync(object id)
     {
-      await Task.Run(async () => {
-        TEntity entityToDelete = dbSet.Find(id);
-        await DeleteAsync(entityToDelete);
-      });
+        TEntity entity = dbSet.Find(id);
+
+        if(entity == null)
+        {
+          return false;
+        }
+
+        return await DeleteAsync(entity);
     }
 
-    public virtual async Task DeleteAsync(TEntity entityToDelete)
+    public virtual async Task<bool> DeleteAsync(TEntity entityToDelete)
     {
-      await Task.Run(() => {
+      return await Task.Run(() => {
         if (context.Entry(entityToDelete).State == EntityState.Detached)
         {
           dbSet.Attach(entityToDelete);
         }
 
-        dbSet.Remove(entityToDelete);
+        var chgTrk = dbSet.Remove(entityToDelete);
+
+        if(chgTrk.State == EntityState.Deleted)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
       });
     }
 
-    public virtual async Task UpdateAsync(TEntity entityToUpdate)
+    public virtual void Update(TEntity entity)
     {
-      await Task.Run(() => {
-        dbSet.Attach(entityToUpdate);
-        context.Entry(entityToUpdate).State = EntityState.Modified;
-      });
+      dbSet.Attach(entity);
+      context.Entry(entity).State = EntityState.Modified;
     }
   }
 }

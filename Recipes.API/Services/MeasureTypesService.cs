@@ -34,66 +34,125 @@ namespace Recipes.API.Services
     {
       if(id == int.MinValue)
       {
-        throw new ArgumentNullException(nameof(id));
+        return null;
       }
 
-      var qttyType = await _unitOkWork.MeasureTypesRepository.GetByIDAsync(id);
+      MeasureType qttyType = await _unitOkWork.MeasureTypesRepository.GetByIDAsync(id);
       
       _unitOkWork.Dispose();
 
       return qttyType;
     }
 
-    public async Task<IList<MeasureType>> GetListAsync(string filterBy, string filterContent, string orderBy)
+    public async Task<IList<MeasureType>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
     {
       string includeProperties = null;
+      Expression<Func<MeasureType, bool>> filterFunc = null;
+      Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderByFunc = null;
+      IEnumerable<MeasureType> measureTypes = null;
 
-      Expression<Func<MeasureType, bool>> filterFunc = filterBy switch
+      try 
       {
-        "Id" => f => f.Id.ToString().Equals(filterContent),
-        "Name" => f => f.Name.Contains(filterContent),
-        _ => null
-      };
+        if(!string.IsNullOrWhiteSpace(filterBy) && !string.IsNullOrWhiteSpace(filterContent))
+        {
+          filterFunc = filterBy.ToUpper() switch
+          {
+            "ID" => f => f.Id.ToString().Equals(filterContent),
+            "NAME" => f => f.Name.Contains(filterContent),
+            _ => null
+          };
+        }
 
-      Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderByFunc = orderBy switch
+        if(!string.IsNullOrWhiteSpace(orderBy))
+        {
+          if(desc)
+          {
+            orderByFunc = orderBy.ToUpper() switch
+            {
+              "ID" => q => q.OrderByDescending(s => s.Id),
+              "NAME" => q => q.OrderByDescending(s => s.Name),
+              _ => null
+            };
+          }
+          else
+          {
+            orderByFunc = orderBy.ToUpper() switch
+            {
+              "ID" => q => q.OrderBy(s => s.Id),
+              "NAME" => q => q.OrderBy(s => s.Name),
+              _ => null
+            };
+          }
+        }
+
+        measureTypes = await _unitOkWork.MeasureTypesRepository.GetAllAsync(filterFunc, orderByFunc, includeProperties);
+
+        _unitOkWork.Dispose();
+
+        return measureTypes.ToList();
+      }
+      catch
       {
-        "Id" => q => q.OrderBy(s => s.Id),
-        "Name" => q => q.OrderBy(s => s.Name),
-        _ => null
-      };
-
-      var MeasureTypes = await _unitOkWork.MeasureTypesRepository.GetAllAsync(filterFunc, orderByFunc, includeProperties);
-
-      _unitOkWork.Dispose();
-
-      return MeasureTypes.ToList();
+        return new List<MeasureType>();
+      }
     }
 
     public async Task<MeasureTypeDTO> InsertAsync(CreateMeasureTypeDTO createDTO)
     {
+      MeasureTypeDTO entityDTO = null;
+
       try
       {
         var entity = _mapper.Map<MeasureType>(createDTO);
         await _unitOkWork.MeasureTypesRepository.InsertAsync(entity);
         await _unitOkWork.SaveAsync();
-        var entityDTO = _mapper.Map<MeasureTypeDTO>(entity);
-        
-        return entityDTO;
+        entityDTO = _mapper.Map<MeasureTypeDTO>(entity);
       }
-      catch(Exception ex) 
+      catch 
+      { }
+
+      return entityDTO;
+    }
+
+    public async Task<bool> UpdateAsync(MeasureTypeDTO updateDTO)
+    {
+      bool updated = false;
+
+      try
       {
-        return null;
+        var entity = _mapper.Map<MeasureType>(updateDTO);
+        await _unitOkWork.MeasureTypesRepository.UpdateAsync(entity);
+        await _unitOkWork.SaveAsync();
+        updated = true;
       }
+      catch 
+      { }
+
+      return updated;
     }
 
     public async Task<bool> DeleteAsync(object id)
     {
-      return await Task.FromResult(true);
+      bool deleted =  await _unitOkWork.MeasureTypesRepository.DeleteAsync(id);
+
+      if(deleted)
+      {
+        await _unitOkWork.SaveAsync();
+      }
+
+      return deleted;
     }
 
-    public async Task<bool> DeleteAsync(MeasureTypeDTO entityToDelete)
+    public async Task<bool> DeleteAsync(MeasureTypeDTO entity)
     {
-      return await Task.FromResult(true);
+      bool deleted = await _unitOkWork.MeasureTypesRepository.DeleteAsync(entity);
+
+      if(deleted)
+      {
+        await _unitOkWork.SaveAsync();
+      }
+
+      return deleted;
     }
   }
 }

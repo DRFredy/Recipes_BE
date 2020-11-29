@@ -9,9 +9,11 @@ namespace Recipes.API.Services.Interfaces
   {
     Task<MeasureType> GetByIDAsync(int id);
 
-    Task<IList<MeasureType>> GetListAsync(string filterBy, string filterContent, string orderBy);
+    Task<IList<MeasureType>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false);
 
     Task<MeasureTypeDTO> InsertAsync(CreateMeasureTypeDTO entity);
+
+    Task<bool> UpdateAsync(MeasureTypeDTO updateDTO);
 
     Task<bool> DeleteAsync(object id);
 
