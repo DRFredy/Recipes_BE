@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Recipes.API.Domain;
 using Recipes.API.Services.Interfaces;
-using Recipes.Models;
 using Recipes.Models.DTOs;
+using Recipes.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,9 +23,9 @@ namespace Recipes.API.Controllers
     }
 
     /// <summary>
-    /// Gets the specified MeasureType.
+    /// Gets the specified Measure Type.
     /// </summary>
-    /// <param name="id">The measure type identifier.</param>
+    /// <param name="id">The MeasureType identifier.</param>
     /// <returns>A MeasureType object.</returns>
     /// [HttpGet("get/{id}")]
     /// [ProducesResponseType(typeof(MeasureType), 200)]

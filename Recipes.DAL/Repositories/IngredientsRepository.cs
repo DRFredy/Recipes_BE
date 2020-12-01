@@ -9,32 +9,32 @@ using System.Threading.Tasks;
 
 namespace Recipes.DAL.Repositories
 {
-  public class MeasureTypesRepository : GenericRepository<MeasureType>, IMeasureTypesRepository
+  public class IngredientsRepository : GenericRepository<Ingredient>, IIngredientsRepository
   {
     private readonly AppDbContext _context;
 
-    public MeasureTypesRepository(AppDbContext context)
+    public IngredientsRepository(AppDbContext context)
       : base(context)
     {
       _context = context;
     }
 
-    public async override Task<IEnumerable<MeasureType>> GetAllAsync(
-      Expression<Func<MeasureType, bool>> filter = null,
-      Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderBy = null,
+    public async override Task<IEnumerable<Ingredient>> GetAllAsync(
+      Expression<Func<Ingredient, bool>> filter = null,
+      Func<IQueryable<Ingredient>, IOrderedQueryable<Ingredient>> orderBy = null,
       string includeProperties = "")
     {
       return await base.GetAllAsync(filter, orderBy, includeProperties);
     }
 
-    public async override Task<MeasureType> GetByIDAsync(object id)
+    public async override Task<Ingredient> GetByIDAsync(object id)
     {
-      return await _context.MeasureTypes
+      return await _context.Ingredients
                     .AsNoTracking()
                     .FirstOrDefaultAsync(et => et.Id == (int)id);
     }
 
-    public async override Task InsertAsync(MeasureType entity)
+    public async override Task InsertAsync(Ingredient entity)
     {
       await base.InsertAsync(entity);
     }
@@ -44,12 +44,12 @@ namespace Recipes.DAL.Repositories
       return await base.DeleteAsync(id);
     }
 
-    public async override Task<bool> DeleteAsync(MeasureType entity)
+    public async override Task<bool> DeleteAsync(Ingredient entity)
     {
       return await base.DeleteAsync(entity);
     }
 
-    public async Task<bool> UpdateAsync(MeasureType entity)
+    public async Task<bool> UpdateAsync(Ingredient entity)
     {
       return await Task.Run(() => {
         try

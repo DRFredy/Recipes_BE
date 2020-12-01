@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Recipes.API.Services
 {
-  public class MeasureTypesService : IMeasureTypesService
+  public class IngredientsService : IIngredientService
   {
     private readonly AppDbContext _context;
     private readonly UnitOfWork _unitOkWork;
@@ -21,7 +21,7 @@ namespace Recipes.API.Services
     private readonly IMapper _mapper;
     private readonly string _webRootPath;
 
-    public MeasureTypesService(AppDbContext context, IConfiguration config, IMapper mapper)
+    public IngredientsService(AppDbContext context, IConfiguration config, IMapper mapper)
     {
       _mapper = mapper;
       _config = config;
@@ -30,26 +30,26 @@ namespace Recipes.API.Services
       _webRootPath = Directory.GetCurrentDirectory();
     }
 
-    public async Task<MeasureType> GetByIDAsync(int id)
+    public async Task<Ingredient> GetByIDAsync(int id)
     {
       if(id == int.MinValue)
       {
         return null;
       }
 
-      MeasureType qttyType = await _unitOkWork.MeasureTypesRepository.GetByIDAsync(id);
+      Ingredient qttyType = await _unitOkWork.IngredientsRepository.GetByIDAsync(id);
       
       _unitOkWork.Dispose();
 
       return qttyType;
     }
 
-    public async Task<IList<MeasureType>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
+    public async Task<IList<Ingredient>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
     {
       string includeProperties = null;
-      Expression<Func<MeasureType, bool>> filterFunc = null;
-      Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderByFunc = null;
-      IEnumerable<MeasureType> measureTypes = null;
+      Expression<Func<Ingredient, bool>> filterFunc = null;
+      Func<IQueryable<Ingredient>, IOrderedQueryable<Ingredient>> orderByFunc = null;
+      IEnumerable<Ingredient> measureTypes = null;
 
       try 
       {
@@ -85,7 +85,7 @@ namespace Recipes.API.Services
           }
         }
 
-        measureTypes = await _unitOkWork.MeasureTypesRepository.GetAllAsync(filterFunc, orderByFunc, includeProperties);
+        measureTypes = await _unitOkWork.IngredientsRepository.GetAllAsync(filterFunc, orderByFunc, includeProperties);
 
         _unitOkWork.Dispose();
 
@@ -93,20 +93,21 @@ namespace Recipes.API.Services
       }
       catch
       {
-        return new List<MeasureType>();
+        return new List<Ingredient>();
       }
     }
 
-    public async Task<MeasureTypeDTO> InsertAsync(CreateMeasureTypeDTO createDTO)
+    public async Task<IngredientDTO> InsertAsync(CreateIngredientDTO createDTO)
     {
-      MeasureTypeDTO entityDTO = null;
+      IngredientDTO entityDTO = null;
 
+      //TODO: validate that the ingredient does not exist....
       try
       {
-        var entity = _mapper.Map<MeasureType>(createDTO);
-        await _unitOkWork.MeasureTypesRepository.InsertAsync(entity);
+        var entity = _mapper.Map<Ingredient>(createDTO);
+        await _unitOkWork.IngredientsRepository.InsertAsync(entity);
         await _unitOkWork.SaveAsync();
-        entityDTO = _mapper.Map<MeasureTypeDTO>(entity);
+        entityDTO = _mapper.Map<IngredientDTO>(entity);
       }
       catch 
       { }
@@ -114,14 +115,14 @@ namespace Recipes.API.Services
       return entityDTO;
     }
 
-    public async Task<bool> UpdateAsync(MeasureTypeDTO updateDTO)
+    public async Task<bool> UpdateAsync(IngredientDTO updateDTO)
     {
       bool updated = false;
 
       try
       {
-        var entity = _mapper.Map<MeasureType>(updateDTO);
-        await _unitOkWork.MeasureTypesRepository.UpdateAsync(entity);
+        var entity = _mapper.Map<Ingredient>(updateDTO);
+        await _unitOkWork.IngredientsRepository.UpdateAsync(entity);
         await _unitOkWork.SaveAsync();
         updated = true;
       }
@@ -133,7 +134,7 @@ namespace Recipes.API.Services
 
     public async Task<bool> DeleteAsync(object id)
     {
-      bool deleted =  await _unitOkWork.MeasureTypesRepository.DeleteAsync(id);
+      bool deleted =  await _unitOkWork.IngredientsRepository.DeleteAsync(id);
 
       if(deleted)
       {
@@ -143,7 +144,7 @@ namespace Recipes.API.Services
       return deleted;
     }
 
-    public async Task<bool> DeleteAsync(MeasureTypeDTO entity)
+    public async Task<bool> DeleteAsync(IngredientDTO entity)
     {
       bool deleted = await _unitOkWork.MeasureTypesRepository.DeleteAsync(entity);
 

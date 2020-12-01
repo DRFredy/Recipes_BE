@@ -9,9 +9,9 @@ using Recipes.API.Services;
 using Recipes.API.Services.Interfaces;
 using Recipes.DAL.Configuration;
 using Recipes.DAL.Extensions;
-using Recipes.Models.Extensions;
-using Recipes.Models;
 using Recipes.Models.DTOs;
+using Recipes.Models.Entities;
+using Recipes.Models.Extensions;
 using System;
 using System.IO;
 using System.Reflection;
@@ -48,10 +48,15 @@ namespace Recipes.API
 
       services.AddTransient<IMeasureTypesService, MeasureTypesService>();
 
-      //Mappers
+      // Mappers:
+      // MeasureType
       services.AddTransient<ITypeConverter<CreateMeasureTypeDTO, MeasureType>, CreateMeasureTypeDTO_To_MeasureType__Converter>();
       services.AddTransient<ITypeConverter<MeasureTypeDTO, MeasureType>, MeasureTypeDTO_To_MeasureType__Converter>();
       services.AddTransient<ITypeConverter<MeasureType, MeasureTypeDTO>, MeasureType_To_MeasureTypeDTO__Converter>();
+      // Ingredient
+      services.AddTransient<ITypeConverter<CreateIngredientDTO, Ingredient>, CreateIngredientDTO_To_Ingredient__Converter>();
+      services.AddTransient<ITypeConverter<IngredientDTO, Ingredient>, IngredientDTO_To_Ingredient__Converter>();
+      services.AddTransient<ITypeConverter<Ingredient, IngredientDTO>, Ingredient_To_IngredientDTO__Converter>();
 
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

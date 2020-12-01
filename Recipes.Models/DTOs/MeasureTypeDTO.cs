@@ -1,20 +1,12 @@
 using AutoMapper;
+using Recipes.Models.Entities;
 using System.ComponentModel.DataAnnotations;
-using Recipes.Models;
 
 namespace Recipes.Models.DTOs
 {
   /// <summary>
   /// MeasureType DTO
   /// </summary>
-  public class CreateMeasureTypeDTO
-  {
-    /// <summary>
-    /// MeasureType Name
-    /// </summary>
-    [Required] public string Name { get; set; }
-  }
-
   public class MeasureTypeDTO
   {
     /// <summary>
@@ -25,6 +17,17 @@ namespace Recipes.Models.DTOs
     /// MeasureType Name
     /// </summary>
     public string Name { get; set; }
+  }
+
+  /// <summary>
+  /// CreateMeasureType DTO
+  /// </summary>
+  public class CreateMeasureTypeDTO
+  {
+    /// <summary>
+    /// MeasureType Name (required)
+    /// </summary>
+    [Required] public string Name { get; set; }
   }
 
   public class CreateMeasureTypeDTO_To_MeasureType__Converter : ITypeConverter<CreateMeasureTypeDTO, MeasureType>

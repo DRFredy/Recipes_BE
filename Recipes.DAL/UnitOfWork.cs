@@ -15,6 +15,7 @@ namespace Recipes.DAL
     private readonly string _webRootPath;
 
     private IMeasureTypesRepository _measureTypesRepository;
+    private IIngredientsRepository _ingredientsRepository;
 
     public UnitOfWork(AppDbContext context, string webRootPath, IConfiguration config, IMapper mapper)
     {
@@ -37,6 +38,18 @@ namespace Recipes.DAL
       }
     }
 
+    public IIngredientsRepository IngredientsRepository
+    {
+      get
+      {
+        if (_ingredientsRepository == null)
+        {
+          _ingredientsRepository = new IngredientsRepository(_context);
+        }
+
+        return _ingredientsRepository;
+      }
+    }
 
     public async Task SaveAsync()
     {
