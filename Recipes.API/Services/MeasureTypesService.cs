@@ -30,26 +30,36 @@ namespace Recipes.API.Services
       _webRootPath = Directory.GetCurrentDirectory();
     }
 
-    public async Task<MeasureType> GetByIDAsync(int id)
+    public async Task<MeasureTypeDTO> GetByIDAsync(int id, bool asNoTracking)
     {
       if(id == int.MinValue)
       {
         return null;
       }
 
-      MeasureType qttyType = await _unitOkWork.MeasureTypesRepository.GetByIDAsync(id);
-      
-      _unitOkWork.Dispose();
+      MeasureTypeDTO measuretypeDTO = null;
 
-      return qttyType;
+      try
+      {
+        MeasureType entity = await _unitOkWork.MeasureTypesRepository.GetByIDAsync(id, asNoTracking);
+      
+        _unitOkWork.Dispose();
+
+        measuretypeDTO = _mapper.Map<MeasureTypeDTO>(entity);
+      }
+      catch 
+      { }
+
+      return measuretypeDTO;
     }
 
-    public async Task<IList<MeasureType>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
+    public async Task<IList<MeasureTypeDTO>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
     {
       string includeProperties = null;
       Expression<Func<MeasureType, bool>> filterFunc = null;
       Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderByFunc = null;
       IEnumerable<MeasureType> measureTypes = null;
+      IList<MeasureTypeDTO> measureTypeDTOs = new List<MeasureTypeDTO>();
 
       try 
       {
@@ -89,12 +99,12 @@ namespace Recipes.API.Services
 
         _unitOkWork.Dispose();
 
-        return measureTypes.ToList();
+        measureTypeDTOs = _mapper.Map<IList<MeasureTypeDTO>>(measureTypes);
       }
       catch
-      {
-        return new List<MeasureType>();
-      }
+      { }
+
+      return measureTypeDTOs;
     }
 
     public async Task<MeasureTypeDTO> InsertAsync(CreateMeasureTypeDTO createDTO)
@@ -103,10 +113,21 @@ namespace Recipes.API.Services
 
       try
       {
-        var entity = _mapper.Map<MeasureType>(createDTO);
+        MeasureType entityToInsert = await _unitOkWork.MeasureTypesRepository.GetByNameAsync(createDTO.Name);
+
+        if (entityToInsert != null)
+        {
+          throw new InvalidDataException("Measure type name already exists.");
+        }
+
+        MeasureType entity = _mapper.Map<MeasureType>(createDTO);
         await _unitOkWork.MeasureTypesRepository.InsertAsync(entity);
         await _unitOkWork.SaveAsync();
         entityDTO = _mapper.Map<MeasureTypeDTO>(entity);
+      }
+      catch(InvalidDataException)
+      {
+        throw;
       }
       catch 
       { }
@@ -120,7 +141,14 @@ namespace Recipes.API.Services
 
       try
       {
-        var entity = _mapper.Map<MeasureType>(updateDTO);
+        MeasureType entityToUpdate = await _unitOkWork.MeasureTypesRepository.GetByIDAsync(updateDTO.Id, false);
+
+        if (entityToUpdate == null)
+        {
+          throw new InvalidDataException("Non-existing measure type");
+        }
+
+        MeasureType entity = _mapper.Map<MeasureType>(updateDTO);
         await _unitOkWork.MeasureTypesRepository.UpdateAsync(entity);
         await _unitOkWork.SaveAsync();
         updated = true;

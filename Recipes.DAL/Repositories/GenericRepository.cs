@@ -54,8 +54,7 @@ namespace Recipes.DAL.Repositories
 
     public virtual async Task<TEntity> GetByIDAsync(object id)
     {
-      return await dbSet
-                    .FindAsync(id);
+      return await dbSet.FindAsync(id);
     }
 
     public virtual async Task InsertAsync(TEntity entity)

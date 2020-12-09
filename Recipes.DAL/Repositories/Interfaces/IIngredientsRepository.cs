@@ -17,7 +17,9 @@ namespace Recipes.DAL.Repositories.Interfaces
         Func<IQueryable<Ingredient>, IOrderedQueryable<Ingredient>> orderBy = null,
         string includeProperties = "");
 
-    Task<Ingredient> GetByIDAsync(object id);
+    Task<Ingredient> GetByIDAsync(object id, bool asNoTracking);
+
+    Task<Ingredient> GetByNameAsync(string name);
 
     Task InsertAsync(Ingredient entity);
 

@@ -27,11 +27,28 @@ namespace Recipes.DAL.Repositories
       return await base.GetAllAsync(filter, orderBy, includeProperties);
     }
 
-    public async override Task<Ingredient> GetByIDAsync(object id)
+    public async Task<Ingredient> GetByIDAsync(object id, bool asNoTracking)
+    {
+      Ingredient entity = null;
+
+      if(asNoTracking)
+      {
+        entity = await _context.Ingredients
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(ing => ing.Id == (int)id);
+      }
+      else
+      {
+        entity = await base.GetByIDAsync(id);
+      }
+
+      return entity;
+    }
+
+    public async Task<Ingredient> GetByNameAsync(string name)
     {
       return await _context.Ingredients
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(et => et.Id == (int)id);
+                                .FirstOrDefaultAsync(ing => ing.Name.Equals(name.Trim()));
     }
 
     public async override Task InsertAsync(Ingredient entity)

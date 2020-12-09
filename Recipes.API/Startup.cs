@@ -47,6 +47,7 @@ namespace Recipes.API
       services.AddEntityFramework(Configuration);
 
       services.AddTransient<IMeasureTypesService, MeasureTypesService>();
+      services.AddTransient<IIngredientsService, IngredientsService>();
 
       // Mappers:
       // MeasureType

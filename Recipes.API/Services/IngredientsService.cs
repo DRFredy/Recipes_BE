@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Recipes.API.Services
 {
-  public class IngredientsService : IIngredientService
+  public class IngredientsService : IIngredientsService
   {
     private readonly AppDbContext _context;
     private readonly UnitOfWork _unitOkWork;
@@ -30,26 +30,36 @@ namespace Recipes.API.Services
       _webRootPath = Directory.GetCurrentDirectory();
     }
 
-    public async Task<Ingredient> GetByIDAsync(int id)
+    public async Task<IngredientDTO> GetByIDAsync(int id, bool asNoTracking)
     {
       if(id == int.MinValue)
       {
         return null;
       }
 
-      Ingredient qttyType = await _unitOkWork.IngredientsRepository.GetByIDAsync(id);
-      
-      _unitOkWork.Dispose();
+      IngredientDTO ingredientDTO = null;
 
-      return qttyType;
+      try
+      {
+        Ingredient ingredient = await _unitOkWork.IngredientsRepository.GetByIDAsync(id, asNoTracking);
+      
+        _unitOkWork.Dispose();
+
+        ingredientDTO = _mapper.Map<IngredientDTO>(ingredient);
+      }
+      catch
+      { }
+
+      return ingredientDTO;
     }
 
-    public async Task<IList<Ingredient>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
+    public async Task<IList<IngredientDTO>> GetListAsync(string filterBy, string filterContent, string orderBy, bool desc = false)
     {
       string includeProperties = null;
       Expression<Func<Ingredient, bool>> filterFunc = null;
       Func<IQueryable<Ingredient>, IOrderedQueryable<Ingredient>> orderByFunc = null;
-      IEnumerable<Ingredient> measureTypes = null;
+      IEnumerable<Ingredient> ingredients = null;
+      IList<IngredientDTO> ingredientDTOs = new List<IngredientDTO>();
 
       try 
       {
@@ -85,31 +95,41 @@ namespace Recipes.API.Services
           }
         }
 
-        measureTypes = await _unitOkWork.IngredientsRepository.GetAllAsync(filterFunc, orderByFunc, includeProperties);
+        ingredients = await _unitOkWork.IngredientsRepository.GetAllAsync(filterFunc, orderByFunc, includeProperties);
 
         _unitOkWork.Dispose();
 
-        return measureTypes.ToList();
+        ingredientDTOs = _mapper.Map<IList<IngredientDTO>>(ingredients);
       }
       catch
-      {
-        return new List<Ingredient>();
-      }
+      { }
+
+      return ingredientDTOs;
     }
 
     public async Task<IngredientDTO> InsertAsync(CreateIngredientDTO createDTO)
     {
       IngredientDTO entityDTO = null;
 
-      //TODO: validate that the ingredient does not exist....
       try
       {
-        var entity = _mapper.Map<Ingredient>(createDTO);
+        Ingredient entityToInsert = await _unitOkWork.IngredientsRepository.GetByNameAsync(createDTO.Name);
+
+        if(entityToInsert != null)
+        {
+          throw new InvalidDataException("Ingredient name already exists.");
+        }
+
+        Ingredient entity = _mapper.Map<Ingredient>(createDTO);
         await _unitOkWork.IngredientsRepository.InsertAsync(entity);
         await _unitOkWork.SaveAsync();
         entityDTO = _mapper.Map<IngredientDTO>(entity);
       }
-      catch 
+      catch(InvalidDataException)
+      {
+        throw;
+      }
+      catch
       { }
 
       return entityDTO;
@@ -121,10 +141,21 @@ namespace Recipes.API.Services
 
       try
       {
-        var entity = _mapper.Map<Ingredient>(updateDTO);
+        Ingredient entityToUpdate = await _unitOkWork.IngredientsRepository.GetByIDAsync(updateDTO.Id, false);
+
+        if (entityToUpdate == null)
+        {
+          throw new InvalidDataException("Non-existing ingredient");
+        }
+
+        Ingredient entity = _mapper.Map<Ingredient>(updateDTO);
         await _unitOkWork.IngredientsRepository.UpdateAsync(entity);
         await _unitOkWork.SaveAsync();
         updated = true;
+      }
+      catch(InvalidDataException)
+      {
+        throw;
       }
       catch 
       { }
@@ -146,7 +177,7 @@ namespace Recipes.API.Services
 
     public async Task<bool> DeleteAsync(IngredientDTO entity)
     {
-      bool deleted = await _unitOkWork.MeasureTypesRepository.DeleteAsync(entity);
+      bool deleted = await _unitOkWork.IngredientsRepository.DeleteAsync(entity);
 
       if(deleted)
       {

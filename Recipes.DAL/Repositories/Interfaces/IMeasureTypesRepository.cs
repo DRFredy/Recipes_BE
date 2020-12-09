@@ -17,8 +17,9 @@ namespace Recipes.DAL.Repositories.Interfaces
         Func<IQueryable<MeasureType>, IOrderedQueryable<MeasureType>> orderBy = null,
         string includeProperties = "");
 
-    Task<MeasureType> GetByIDAsync(object id);
+    Task<MeasureType> GetByIDAsync(object id, bool asNoTracking);
 
+    Task<MeasureType> GetByNameAsync(string name);
     Task InsertAsync(MeasureType entity);
 
     Task<bool> UpdateAsync(MeasureType entity);
