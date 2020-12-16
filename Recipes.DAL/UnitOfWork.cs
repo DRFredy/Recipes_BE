@@ -1,8 +1,10 @@
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using Recipes.DAL.Extensions;
 using Recipes.DAL.Repositories;
 using Recipes.DAL.Repositories.Interfaces;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Recipes.DAL
@@ -16,6 +18,7 @@ namespace Recipes.DAL
 
     private IMeasureTypesRepository _measureTypesRepository;
     private IIngredientsRepository _ingredientsRepository;
+    private IImagesRepository _imagesRepository;
 
     public UnitOfWork(AppDbContext context, string webRootPath, IConfiguration config, IMapper mapper)
     {
@@ -48,6 +51,21 @@ namespace Recipes.DAL
         }
 
         return _ingredientsRepository;
+      }
+    }
+
+    public IImagesRepository ImagesRepository
+    {
+      get
+      {
+        if(_imagesRepository == null)
+        {
+          string imgsPath = Path.Combine(_webRootPath, _config.GetImagesPath());
+
+          _imagesRepository = new ImagesRepository(imgsPath);
+        }
+
+        return _imagesRepository;
       }
     }
 

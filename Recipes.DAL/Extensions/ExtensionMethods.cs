@@ -34,6 +34,7 @@ namespace Recipes.DAL.Extensions
     public static string GetImagesPath(this IConfiguration config) =>
       config.GetSection("ImagesPath").Value;
     #endregion
+
     private static IEnumerable<T> GetImplementationsOf<T>(this Assembly assembly)
     {
       var result = new List<T>();

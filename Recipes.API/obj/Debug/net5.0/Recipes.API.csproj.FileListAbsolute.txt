@@ -16,11 +16,6 @@ C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\ref\Recipes.API.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Recipes.API.pdb
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\AutoMapper.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\BouncyCastle.Crypto.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Google.Protobuf.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\K4os.Compression.LZ4.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\K4os.Compression.LZ4.Streams.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\K4os.Hash.xxHash.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -39,12 +34,6 @@ C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.IdentityMo
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Microsoft.OpenApi.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\MySql.Data.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Ubiety.Dns.Core.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Zstandard.Net.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\MySql.Data.EntityFrameworkCore.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Renci.SshNet.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\SshNet.Security.Cryptography.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -52,7 +41,6 @@ C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\System.Configuration
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\System.Runtime.Caching.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
-C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\Microsoft.Data.SqlClient.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
@@ -74,3 +62,7 @@ C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\obj\Debug\net5.0\Recipes.API.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\obj\Debug\net5.0\ref\Recipes.API.dll
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\obj\Debug\net5.0\Recipes.API.pdb
 C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\obj\Debug\net5.0\Recipes.API.genruntimeconfig.cache
+C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\MySqlConnector.dll
+C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Dev\newRecipesBE\Recipes_BE\Recipes.API\bin\Debug\net5.0\Pomelo.JsonObject.dll

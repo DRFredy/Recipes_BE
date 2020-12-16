@@ -2,6 +2,9 @@
 
 namespace Recipes.Models.Entities
 {
+  /// <summary>
+  /// Ingredient entity
+  /// </summary>
   public class Ingredient
   {
     /// <summary>

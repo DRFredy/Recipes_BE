@@ -26,8 +26,8 @@ namespace Recipes.API.Services
       _mapper = mapper;
       _config = config;
       _context = context;
-      _unitOkWork = new UnitOfWork(_context, _webRootPath, _config, _mapper);
       _webRootPath = Directory.GetCurrentDirectory();
+      _unitOkWork = new UnitOfWork(_context, _webRootPath, _config, _mapper);
     }
 
     public async Task<MeasureTypeDTO> GetByIDAsync(int id, bool asNoTracking)
