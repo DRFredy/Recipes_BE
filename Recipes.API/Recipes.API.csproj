@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -21,10 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Recipes.DAL\Recipes.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Recipes.Models\Recipes.Models.csproj" />
+    <ProjectReference Include="..\Recipes.Domain\Recipes.Domain.csproj" />
   </ItemGroup>
 
 </Project>

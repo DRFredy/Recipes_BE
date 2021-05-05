@@ -1,5 +1,5 @@
-using Recipes.Models.DTOs;
-using Recipes.Models.Entities;
+using Recipes.Domain.DTOs;
+using Recipes.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -29,7 +29,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Recipes.Models\Recipes.Models.csproj" />
+    <ProjectReference Include="..\Recipes.Domain\Recipes.Domain.csproj" />
   </ItemGroup>
   
 </Project>

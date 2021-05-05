@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Recipes.Models.Extensions
+namespace Recipes.Domain.Extensions
 {
 #pragma warning disable 1591
   public static class ExtensionMethods

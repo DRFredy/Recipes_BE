@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Recipes.Models.Entities;
+using Recipes.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace Recipes.Models.DTOs
+namespace Recipes.Domain.DTOs
 {
   /// <summary>
   /// Ingredient DTO

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Recipes.DAL.Repositories.Interfaces;
-using Recipes.Models.Entities;
+using Recipes.Domain.Interfaces.Repository;
+using Recipes.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

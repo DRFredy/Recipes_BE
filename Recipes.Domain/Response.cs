@@ -1,6 +1,6 @@
 using System;
 
-namespace Recipes.API.Domain
+namespace Recipes.Domain
 {
   public class Response<T>
   {

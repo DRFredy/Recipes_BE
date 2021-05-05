@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Recipes.Models.Entities;
+using Recipes.Domain.Entities;
 
-namespace Recipes.Models.DTOs
+namespace Recipes.Domain.DTOs
 {
   public class DomainProfile : Profile
   {

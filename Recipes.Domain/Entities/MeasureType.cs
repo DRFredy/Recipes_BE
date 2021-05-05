@@ -1,20 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recipes.Models.Entities
+namespace Recipes.Domain.Entities
 {
   /// <summary>
-  /// Ingredient entity
+  /// MeasureType entity
   /// </summary>
-  public class Ingredient
+  public class MeasureType
   {
     /// <summary>
-    /// Ingredient Id
+    /// MeasureType Id
     /// </summary>
-    [Required] public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
+
     /// <summary>
-    /// Ingredient Name
+    /// MeasureType Name
     /// </summary>
     [Required] public string Name { get; set; }
   }
 }
-

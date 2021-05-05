@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Recipes.DAL.Extensions;
 using Recipes.DAL.Repositories;
-using Recipes.DAL.Repositories.Interfaces;
+using Recipes.Domain.Interfaces.Repository;
 using System;
 using System.IO;
 using System.Threading.Tasks;

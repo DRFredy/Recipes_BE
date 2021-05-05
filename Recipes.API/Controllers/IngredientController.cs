@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Recipes.API.Domain;
+using Recipes.Domain;
 using Recipes.API.Services.Interfaces;
-using Recipes.Models.DTOs;
-using Recipes.Models.Entities;
+using Recipes.Domain.DTOs;
+using Recipes.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -57,7 +57,7 @@ namespace Recipes.API.Controllers
     /// <param name="orderBy">Field name to order by.</param>
     /// <param name="desc">Boolean indicating if the ordering must be descendent.</param>
     /// <returns>An ingredients list.</returns>
-    [HttpGet("getall")]
+    [HttpGet]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]

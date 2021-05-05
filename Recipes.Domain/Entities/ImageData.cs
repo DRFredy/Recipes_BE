@@ -1,4 +1,4 @@
-﻿namespace Recipes.Models.Entities
+﻿namespace Recipes.Domain.Entities
 {
   /// <summary>
   /// ImageData entity

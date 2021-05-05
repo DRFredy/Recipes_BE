@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recipes.API.Domain;
+using Recipes.Domain;
 using Recipes.API.Services.Interfaces;
 using System;
 using System.ComponentModel.DataAnnotations;

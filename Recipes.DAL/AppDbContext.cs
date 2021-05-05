@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Models.Entities;
+using Recipes.Domain.Entities;
 
 namespace Recipes.DAL
 {
